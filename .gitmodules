@@ -1,0 +1,3 @@
+[submodule "apache/tcpdf"]
+	path = apache/tcpdf
+	url = https://github.com/tecnickcom/TCPDF.git
