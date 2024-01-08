@@ -16,7 +16,7 @@ def extract_timestamp_from_filename(filename):
         return timestamp, additional_info
     return None, None
 
-def insert_into_database_start(results):
+def insert_into_database_start(results, start):
     try:
         conn = mysql.connector.connect(
             host='192.168.10.150',
@@ -50,7 +50,7 @@ def insert_into_database_start(results):
     finally:
         cursor.close()
         conn.close()
-def update_database_meta(results):
+def update_database_meta(results, meta):
     try:
         conn = mysql.connector.connect(
             host='192.168.10.150',
@@ -134,8 +134,8 @@ def main():
     with results_file.open('w') as output_file:
         json.dump(results_start, output_file, indent=4)
 
-    insert_into_database_start(results_start)
-    update_database_meta(results_meta)
+    insert_into_database_start(results_start, start)
+    update_database_meta(results_meta, meta)
 
 if __name__ == '__main__':
     main()
