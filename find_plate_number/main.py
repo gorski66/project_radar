@@ -5,7 +5,7 @@ import re
 import cv2
 import mysql.connector
 import datetime
-from license_plate_processing import recognize_license_plate, get_chars_contour, train_classifier, train_KNN
+from registration_processing import recognize_license_plate, get_chars_contour, train_classifier, train_KNN
 
 def extract_timestamp_from_filename(filename):
     # Extracts timestamp from filenames like 'final_20231217153228_balice.jpg'
@@ -50,7 +50,7 @@ def insert_into_database_start(results):
     finally:
         cursor.close()
         conn.close()
-def insert_into_database_meta(results):
+def update_database_meta(results):
     try:
         conn = mysql.connector.connect(
             host='192.168.10.150',
@@ -109,6 +109,11 @@ def main():
     parser.add_argument('results_file', type=str)
     args = parser.parse_args()
 
+
+    start = 'balice'
+    meta = 'chrzanow'
+
+
     images_dir = Path(args.images_dir)
     results_file = Path(args.results_file)
 
@@ -117,8 +122,8 @@ def main():
     train_KNN(classifications, flattened_images)
 
     images_paths = sorted([image_path for image_path in images_dir.iterdir() if image_path.name.endswith('.jpg')])
-    balice_images = [img for img in images_paths if 'balice' in img.name]
-    chrzanow_images = [img for img in images_paths if 'chrzanow' in img.name]
+    balice_images = [img for img in images_paths if start in img.name]
+    chrzanow_images = [img for img in images_paths if meta in img.name]
     results_start = {}
     results_meta = {}
 
@@ -130,7 +135,7 @@ def main():
         json.dump(results_start, output_file, indent=4)
 
     insert_into_database_start(results_start)
-    insert_into_database_meta(results_meta)
+    update_database_meta(results_meta)
 
 if __name__ == '__main__':
     main()
