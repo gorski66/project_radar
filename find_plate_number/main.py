@@ -37,7 +37,7 @@ def insert_into_database_start(results):
             row = cursor.fetchone()
             cursor.fetchall()  # Consume any remaining results
             print(row)
-            if not row and location == 'balice':
+            if not row and location == start:
             # Insert new record for 'balice'
                 insert_query = "INSERT INTO plates (timestamp_in, location_in, plate_number_in) VALUES (%s, %s, %s)"
                 cursor.execute(insert_query, (timestamp, location, plate_number))
@@ -71,7 +71,7 @@ def update_database_meta(results):
             row = cursor.fetchone()
             cursor.fetchall()  # Consume any remaining results
 
-            if row and location == 'chrzanow':
+            if row and location == meta:
             # Update existing record for 'chrzanow'
                 update_query = "UPDATE plates SET timestamp_out = %s, location_out = %s, plate_number_out = %s WHERE id = %s"
                 cursor.execute(update_query, (timestamp, location, plate_number, row[0]))
