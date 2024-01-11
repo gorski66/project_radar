@@ -23,6 +23,7 @@
 \usepackage{datetime2}
 \usepackage[x11names,dvipsnames,table]{xcolor}
 \usepackage{hyperref}
+\usepackage{tabularx}
 \hypersetup{
 pdfauthor={Roman Czapla, Olaf Bar},
 colorlinks=True,
@@ -182,60 +183,85 @@ Kraków \the\year\\
 \subsection{Projekt UML}
 \textit{W szczególności: diagram klas, ew. np. przypadki użycia, diagramy sekwencji, czynności, stanów, obiektów/komponentów/pakietów itp.}
 \subsection{Projekt bazy danych}
-Baza danych 'radar' składa się z 4 tabel, które służą do zbierania danych wejściowych z kamer oraz do prezentowania wyników za pomocą raportu dla zarejestrowanych użytkowników. Poniżej opis tabel wraz z omówieniem kolumn przechowujących dane.
+Baza danych 'radar' składa się z 4 tabel, które służą do zbierania danych wejściowych z kamer oraz do prezentowania wyników za pomocą raportu dla zarejestrowanych użytkowników. Poniżej opis tabel wraz z omówieniem kolumn przechowujących dane.\\
 
     Tabela cars zawiera 10 pól:
-    \begin{itemize}
-      \item id
-      \item brand (marka)
-      \item model
-      \item year{\_}of{\_}manufacture (rok produkcji)
-      \item first{\_}registration{\_}date (data rejestracji)
-      \item color 
-      \item plate{\_}number (numer rejestracyjny)
-      \item owner{\_}name (nazwa właściciela)
-      \item owner{\_}address (adres właściciela)
-      \item owner{\_}ontact{\_}number (numer kontaktowy właściciela)
-
-   \end{itemize}
+    \begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{Nazwa} & \textbf{Opis} \\ \hline
+    id &  -   \\ \hline
+    brand & marka \\  \hline
+    model & - \\  \hline
+    year{\_}of{\_}manufacture & rok produkcji \\  \hline
+    first{\_}registration{\_}date & data pierwszej rejestracji \\  \hline
+    color & - \\  \hline
+    plate{\_}number & numer rejestracyjny \\ \hline
+    owner{\_}name & nazwa właściciela \\ \hline
+    owner{\_}address & adres właściciela \\ \hline
+    owner{\_}contact{\_}number & numer kontaktowy właściciela\\ \hline
+    \end{tabularx}
+    \caption{Tabela cars}
+    \end{table}
         
         Tabela przechowuje szczegółowe informacje o samochodach, w tym ich markę, model, kolor oraz dane właściciela. W środowisku produkcyjnym tabela ta musiałaby posiadać informacje o wszystkich samochodach zajerejestrowanych w Polsce oraz ich włascicielach, ponieważ bez tych danych byłoby niemożliwe wygenerowanie raportu ze zdarzenia z poziomu aplikacji webowej. Dane w tej tabeli mogłby replikować się z rządowych baz danych.  
 
-    Tabela plates zawiera 8 pól:
-    
-    \begin{itemize}
-      \item id
-      \item timestamp{\_}in (czas wejścia)
-      \item location{\_}in (lokalizacja wejścia)
-      \item plate{\_}number{\_}in (numer tablicy wejścia)
-      \item timestamp{\_}out (czas wyjścia)
-      \item location{\_}out (lokalizacja wyjścia) 
-      \item plate{\_}number (numer rejestracyjny)
-      \item plate{\_}number{\_}out (numer tablicy wyjścia)
-      \item isDeleted 
+    \newpage
+    Tabela plates zawiera 9 pól:
 
-   \end{itemize}
+    \begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{Nazwa} & \textbf{Opis} \\ \hline
+    id &  -   \\ \hline
+    timestamp{\_}in & czas rozpoczęcia pomiaru \\  \hline
+    location{\_}in & lokalizacja rozpoczęcia pomiaru \\  \hline
+    plate{\_}number{\_}in & numer rejestracyjny przy starcie pomiaru \\  \hline
+    timestamp{\_}out & czas zakończenia pomiaru \\  \hline
+    location{\_}out & lokalizacja zakończenias pomiaru \\ \hline
+    plate{\_}number & numer rejestracyjny \\ \hline
+    plate{\_}number{\_}out & numer tablicy przy zakończeniu pomiaru \\ \hline
+    isDeleted & flaga usuniętego rekordu \\ \hline
+    \end{tabularx}
+    \caption{Tabela plates}
+    \end{table}
         
-        Tabela używana do śledzenia wejścia i wyjścia pojazdów z ich numerami tablic w określonych miejscach i czasach. Jest kluczowa z punktu widzenia systemu radaru odcinkowego, ponieważ zbiera informacje o wykroczeniach prędkości i na jej podstawie analizowana jest prędkość średnia na wybranym odcinku drogi. 
+        Tabela używana do śledzenia wejścia i wyjścia pojazdów z ich numerami tablic w określonych miejscach i czasach. Jest kluczowa z punktu widzenia systemu radaru odcinkowego, ponieważ zbiera informacje o wykroczeniach prędkości i na jej podstawie analizowana jest prędkość średnia na wybranym odcinku drogi.\\
 
-    Tabela raport zawiera 5 pól:
-    \begin{itemize}
-      \item id
-      \item timestamp (czas wygenerowania raportu)
-      \item speed (prędkość)
-      \item ticket (mandat)
-      \item plates{\_}id
-   \end{itemize}
-        
-        
+
+    Tabela raport zawiera 5 pól: 
+
+    \begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{Nazwa} & \textbf{Opis} \\ \hline
+    id &  -   \\ \hline
+    timestamp{\_}in & czas wygenerowania raportu \\  \hline
+    speed & prędkość \\  \hline
+    plates{\_}id & identyfikator rekordu tablicy rejestracyjnej \\  \hline
+    \end{tabularx}
+    \caption{Tabela raport}
+    \end{table}
+            
         Tabela używana do celów raportowania, zawiera informacje o wygenerowanym raporcie, przechowuje prędkość na zmierzonym odcinku oraz wysokość należnego mandatu wraz z kluczem obcym do tabeli plates.
 
+    \newpage
     Tabela users zawiera 3 pola:
-    \begin{itemize}
-      \item id
-      \item username
-      \item password
-   \end{itemize}
+
+    \begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{Nazwa} & \textbf{Opis} \\ \hline
+    id &  -   \\ \hline
+    username{\_}in & nazwa użytkownika \\  \hline
+    password & hasło \\  \hline
+    \end{tabularx}
+    \caption{Tabela users}
+    \end{table}
 
        Tabela służy do przechowywania poświadczeń użytkowników z unikanymi nazwami oraz powiązanymi hasłami z procesu rejestracji konta. Na cele projektowe jest wystarczająca natomiast zostawia spore możliwości rozwoju, które powinny zostać wykorzystane podczas rozwiajanie funkcjonalości projektu. 
 
