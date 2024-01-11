@@ -1,0 +1,197 @@
+\documentclass[12pt,a4paper,oneside]{article}
+\usepackage[QX]{polski}
+
+\usepackage[utf8]{inputenc}
+\usepackage{latexsym}
+\usepackage{tgpagella}
+\usepackage{lmodern}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,alltt}
+\usepackage{epsfig}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage{indentfirst}
+\usepackage{float}
+%\usepackage{showkeys}
+\bibliographystyle{plabbrv}
+
+
+\usepackage{color}
+\usepackage[polish]{babel}
+\usepackage{datetime2}
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+pdfauthor={Roman Czapla, Olaf Bar},
+colorlinks=True,
+linkcolor=darkgray,  % color of internal links (change box color with linkbordercolor)
+citecolor=BrickRed,  % color of links to bibliography
+filecolor=Magenta,   % color of file links
+urlcolor=BlueViolet}	%%pdfpagemode=FullScreen}
+
+% diagramy, grafy itp.
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{chains,fit,shapes,calc}
+\tikzset{main node/.style={circle,fill=blue!20,draw,minimum size=1cm,inner sep=0pt}}
+
+% algorytmy
+\usepackage[linesnumbered,lined,commentsnumbered]{algorithm2e}
+\SetKwFor{ForEach}{for each}{do}{end for}%
+\SetKwFor{ForAll}{for all}{do}{end for}%
+\newenvironment{myalgorithm}
+{\rule{\textwidth}{0.5mm}\\\SetAlCapSty{}\SetAlgoNoEnd\SetAlgoNoLine\begin{algorithm}}{\end{algorithm}\rule{\textwidth}{0.5mm}}
+
+
+%---------------------
+\overfullrule=2mm
+\pagestyle{plain}
+\textwidth=15cm \textheight=685pt \topmargin=-25pt \linespread{1.3} 
+\setlength{\parskip}{0pt}
+\setlength\arraycolsep{2pt}
+\oddsidemargin =0.9cm
+\evensidemargin =-0.1cm
+
+\captionsetup{width=.95\linewidth, justification=centering}
+%---------------------
+
+
+
+
+\newtheorem{tw}{Twierdzenie}[section]
+\newtheorem{lem}[tw]{Lemat}
+\newtheorem{co}[tw]{Wniosek}
+\newtheorem{prop}[tw]{Stwierdzenie}
+\theoremstyle{definition}
+\newtheorem{ex}{Przykład}
+\newtheorem{re}[tw]{Uwaga}
+\newtheorem{de}{Definicja}[section]
+
+
+
+\newcommand{\bC}{{\mathbb C}}
+\newcommand{\bR}{{\mathbb R}}
+\newcommand{\bZ}{{\mathbb Z}}
+\newcommand{\bQ}{{\mathbb Q}}
+\newcommand{\bN}{{\mathbb N}}
+\newcommand{\captionT}[1]{\caption{\textsc{\footnotesize{#1}}}}
+\renewcommand\figurename{Rys.}
+
+\numberwithin{equation}{section}
+\renewcommand{\thefootnote}{\arabic{footnote})}
+%\renewcommand{\thefootnote}{\alph{footnote})}
+
+
+
+\begin{document}
+
+% --------------------------------------------
+% Strona tytułowa
+% --------------------------------------------
+
+\thispagestyle{empty}
+\begin{titlepage}
+\begin{center}\Large
+Uniwersytet Komisji Edukacji Narodowej w Krakowie\\
+\large
+Instytut Bezpieczeństwa i Informatyki\\
+\vskip 10pt
+\end{center}
+\begin{center}
+\centering \includegraphics[width=1.0\columnwidth]{images/logo.png}
+\end{center}
+
+\begin{center}
+ {\bf \fontsize{14pt}{14pt}\selectfont PROJEKT INŻYNIERSKI\\ WYBÓR TEMATU}
+\end{center}
+\vskip 5pt
+\begin{center}
+ {\bf \fontsize{22pt}{22pt}\selectfont RADAR ODCINKOWY}
+\end{center}
+
+\begin{center}
+ {\fontsize{12pt}{12pt}\selectfont wykonany przez: }
+\end{center}
+\begin{center}
+ {\bf\fontsize{16pt}{16pt}\selectfont Tomasz Górski}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 151896 \\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Tomasz Joniec}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 151861\\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Patryk Golonka}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 145857}
+\end{center}
+\begin{center}
+ {\fontsize{12pt}{12pt}\selectfont pod opieką:}\\
+ {\bf\fontsize{12pt}{12pt}\selectfont dr inż. Grzegorz Sokal, mgr Łukasz Przybytek}
+\end{center}
+
+%\mbox{}
+\vspace*{\fill}
+%\vskip 50pt
+\begin{center}
+\large
+Kraków \the\year\\
+(ostatnia aktualizacja: \DTMcurrenttime,\;\today)
+\end{center}
+\end{titlepage}
+\setcounter{page}{0} 
+\newpage\null\thispagestyle{empty}
+%\setcounter{page}{0} 
+%\newpage
+%\thispagestyle{empty}
+
+\tableofcontents
+
+
+\newpage
+
+\section{Informacje na temat wybranego tematu i zespołu projektowego}
+\subsection{Wybrany temat}
+\textit{Projekt systemu radaru odcinkowego z rozpoznawaniem rejestracji pojazdu.}
+\subsection{Zespół projektowy}
+Lista osób w zespole:
+\begin{itemize}
+  \item Tomasz Górski - tomasz.gorski@stundent.up.krakow.pl
+  \item Tomasz Joniec - tomasz.joniec@student.up.krakow.pl
+  \item Patryk Golonka - patryk.golonka2@student.up.krakow.pl
+\end{itemize}
+\subsection{Opis tematu}
+\textit{Projekt obejmuje stworzenie inteligentnego systemu monitorującego ruch pojazdów na danym odcinku drogi. System wykorzystuje radar odcinkowy do pomiaru prędkości pojazdów oraz kamerę do rozpoznawania numerów rejestracyjnych. Główne funkcje projektu to identyfikacja pojazdów na wejściu i wyjściu, pomiar prędkości oraz obliczanie czasu podróży między dwoma punktami. Dane odczytane z radaru i kamery są zapisywane w bazie danych, umożliwiając monitorowanie ruchu oraz generowanie raportów. System ma zastosowanie w monitorowaniu czasu podróży, kontroli ruchu drogowego i zarządzaniu danymi dotyczącymi pojazdów na danym odcinku drogi.}
+\subsection{Założenia projektowe}
+\textit{Do wykonaniu projektu będą wykorzystane następujące urządzenia i technologie: }
+\begin{itemize}
+  \item Terminal HP T620, AMD GX-217GA 1,65GHz DualDore / 12 GB RAM / 128 GB SSD / Ubuntu Server 22.04 LTS
+  \item kamera Zintronic D5 POE IKKP520V1 (2 szt.)  
+  \item Switch POE 4xPOE 2xUplink 60W EUROS V2
+  \item Biblioteka OpenCV - opencv.org
+  \item Baza danych MySQL
+  \item Apache HTTP Server
+\end{itemize}
+\subsection{Wstępny harmonogram pracy}
+\begin{itemize}
+  \item Tomasz Górski - skompletowanie zestawu, przygotowanie środowiska do pracy (konfiguracja i umożliwienie dostępu z zewnątrz), napisanie programu który na wyjściu będzie przekazywał timestamp oraz nr rejestracyjny pojazdu 
+  \item Tomasz Joniec - przygotowanie części bazodanowej (konfiguracja oprogramowania,logika tabel, napisanie query umożliwiającego wysłanie danych z obu kamer do bazy danych, analiza wyników na poziomie bazy danych)
+  \item Patryk Golonka - przygotowanie Apache HTTP Server oraz GUI do interpretacji wyników
+\end{itemize}
+
+
+
+%\renewcommand\refname{Literatura (jeżeli wymagana)}
+%\bibliography{references}
+%\addcontentsline{toc}{section}{Literatura}
+% --------------------------------------------------------------------
+%%%%%%% odkomentować gdy bibliografia ma być wewnątrz dokumentu
+% --------------------------------------------------------------------
+%\begin{thebibliography}{11}
+%
+%\addcontentsline{toc}{section}{Literatura}
+%
+%\bibitem{ZAN}
+%C. Zannoni and P. Pasini, 
+%\emph{Advances in the Computer Simulatons of Liquid Crystals}, Kluwer Academic Publishers, 2000.
+%
+%\end{thebibliography}
+
+\end{document}
+
