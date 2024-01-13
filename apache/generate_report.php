@@ -106,14 +106,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				<tr><th colspan="2">Informacje o przejezdzie</th></tr>
 				<tr><td>Czas wjazdu:</td><td>{$plateInfo['timestamp_in']}</td></tr>
 				<tr><td>Miejsce wjazdu:</td><td>{$plateInfo['location_in']}</td></tr>
-				<tr><td>Numer rejestracyjny na wjeździe:</td><td>{$plateInfo['plate_number_in']}</td></tr>
+				<tr><td>Numer rejestracyjny na wjezdzie:</td><td>{$plateInfo['plate_number_in']}</td></tr>
 				<tr><td>Czas wyjazdu:</td><td>{$plateInfo['timestamp_out']}</td></tr>
 				<tr><td>Miejsce wyjazdu:</td><td>{$plateInfo['location_out']}</td></tr>
-				<tr><td>Numer rejestracyjny na wyjeździe:</td><td>{$plateInfo['plate_number_out']}</td></tr>
-				<tr><td>Obliczona prędkość:</td><td>$speed km/h</td></tr>
-				<tr><td>Mandat:</td><td>$ticketPrice złotych</td></tr>
+				<tr><td>Numer rejestracyjny na wyjezdzie:</td><td>{$plateInfo['plate_number_out']}</td></tr>
+				<tr><td>Obliczona predkosc:</td><td>$speed km/h</td></tr>
+				<tr><td>Mandat:</td><td>$ticketPrice zlotych</td></tr>
 			</table>
-			<h2>Informacje o pojeździe i właścicielu</h2>
+			<h2>Informacje o pojezdzie i włascicielu</h2>
 			<table>
 				<tr><th colspan="2">Dane pojazdu</th></tr>
 				<tr><td>Marka:</td><td>{$carInfo['brand']}</td></tr>

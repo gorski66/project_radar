@@ -1,0 +1,199 @@
+\documentclass[12pt,a4paper,oneside]{article}
+
+\usepackage[QX]{polski}
+
+\usepackage[utf8]{inputenc}
+\usepackage{latexsym}
+\usepackage{tgpagella}
+\usepackage{lmodern}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,alltt}
+\usepackage{epsfig}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage{indentfirst}
+\usepackage{float}
+%\usepackage{showkeys}
+\bibliographystyle{plabbrv}
+
+
+\usepackage{color}
+\usepackage[polish]{babel}
+\usepackage{datetime2}
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+pdfauthor={Roman Czapla, Olaf Bar},
+colorlinks=True,
+linkcolor=darkgray,  % color of internal links (change box color with linkbordercolor)
+citecolor=BrickRed,  % color of links to bibliography
+filecolor=Magenta,   % color of file links
+urlcolor=BlueViolet}	%%pdfpagemode=FullScreen}
+
+% diagramy, grafy itp.
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{chains,fit,shapes,calc}
+\tikzset{main node/.style={circle,fill=blue!20,draw,minimum size=1cm,inner sep=0pt}}
+
+% algorytmy
+\usepackage[linesnumbered,lined,commentsnumbered]{algorithm2e}
+\SetKwFor{ForEach}{for each}{do}{end for}%
+\SetKwFor{ForAll}{for all}{do}{end for}%
+\newenvironment{myalgorithm}
+{\rule{\textwidth}{0.5mm}\\\SetAlCapSty{}\SetAlgoNoEnd\SetAlgoNoLine\begin{algorithm}}{\end{algorithm}\rule{\textwidth}{0.5mm}}
+
+
+%---------------------
+\overfullrule=2mm
+\pagestyle{plain}
+\textwidth=15cm \textheight=685pt \topmargin=-25pt \linespread{1.3} 
+\setlength{\parskip}{0pt}
+\setlength\arraycolsep{2pt}
+\oddsidemargin = 0.9cm
+\evensidemargin =-0.1cm
+
+\captionsetup{width=.95\linewidth, justification=centering}
+%---------------------
+
+
+
+
+\newtheorem{tw}{Twierdzenie}[section]
+\newtheorem{lem}[tw]{Lemat}
+\newtheorem{co}[tw]{Wniosek}
+\newtheorem{prop}[tw]{Stwierdzenie}
+\theoremstyle{definition}
+\newtheorem{ex}{Przykład}
+\newtheorem{re}[tw]{Uwaga}
+\newtheorem{de}{Definicja}[section]
+
+
+
+\newcommand{\bC}{{\mathbb C}}
+\newcommand{\bR}{{\mathbb R}}
+\newcommand{\bZ}{{\mathbb Z}}
+\newcommand{\bQ}{{\mathbb Q}}
+\newcommand{\bN}{{\mathbb N}}
+\newcommand{\captionT}[1]{\caption{\textsc{\footnotesize{#1}}}}
+\renewcommand\figurename{Rys.}
+
+\numberwithin{equation}{section}
+\renewcommand{\thefootnote}{\arabic{footnote})}
+%\renewcommand{\thefootnote}{\alph{footnote})}
+
+
+
+\begin{document}
+% --------------------------------------------
+% Strona tytułowa
+% --------------------------------------------
+
+\thispagestyle{empty}
+\begin{titlepage}
+\begin{center}\Large
+Uniwersytet Komisji Edukacji Narodowej w Krakowie\\
+\large
+Instytut Bezpieczeństwa i Informatyki\\
+\vskip 10pt
+\end{center}
+\begin{center}
+\centering \includegraphics[width=1.0\columnwidth]{images/logo.png}
+\end{center}
+
+\begin{center}
+ {\bf \fontsize{14pt}{14pt}\selectfont PROJEKT INŻYNIERSKI\\ DOKUMENTACJA INSTALACYJNO-KONFIGURACYJNA SYSTEMU}
+\end{center}
+\vskip 5pt
+\begin{center}
+ {\bf \fontsize{22pt}{22pt}\selectfont RADAR ODCINKOWY}
+\end{center}
+
+\begin{center}
+ {\fontsize{12pt}{12pt}\selectfont wykonany przez: }
+\end{center}
+\begin{center}
+ {\bf\fontsize{16pt}{16pt}\selectfont Tomasz Górski}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 151896 \\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Tomasz Joniec}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 151861\\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Patryk Golonka}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 145857}
+\end{center}
+\begin{center}
+ {\fontsize{12pt}{12pt}\selectfont pod opieką:}\\
+ {\bf\fontsize{12pt}{12pt}\selectfont dr inż. Grzegorz Sokal, mgr Łukasz Przybytek}
+\end{center}
+
+%\mbox{}
+\vspace*{\fill}
+%\vskip 50pt
+\begin{center}
+\large
+Kraków \the\year\\
+(ostatnia aktualizacja: \DTMcurrenttime,\;\today)
+\end{center}
+\end{titlepage}
+\setcounter{page}{0} 
+\newpage\null\thispagestyle{empty}
+%\setcounter{page}{0} 
+%\newpage
+%\thispagestyle{empty}
+
+\tableofcontents
+
+
+\newpage
+
+\section{Szczegółowa dokumentacja przebiegu instalacji oraz konfiguracji systemu.}
+\subsection{Wymagania sprzętowe}
+Minimalne wymagania sprzętowe do poprawnego działania projektu:
+\begin{itemize}
+  \item  kamery IP ze wspraciem FTP oraz detekcją ruchu  
+  \item  2 rdzenniowy procesor 
+  \item  4 GB pamięci RAM 
+  \item  dysk 32 GB
+\end{itemize}
+\subsection{Środowisko uruchomieniowe}
+Do poprawnego działania wymagane jest instalacja poniższego oprogramowania:
+\begin{itemize}
+  \item  Ubuntu 20.04.6 LTS lub nowszy
+  \item  Python 3.7
+  \item  vsftpd 3.0.5
+  \item  opencv-python 4.4.0.44
+  \item  numpy 1.18.3
+  \item  Apache 2.4
+  \item  MySQL 8.0 (LTS)
+  \item  PHP 8.2
+  \item  TCPDF
+\end{itemize}
+\subsection{Opis instalacji}
+\begin{enumerate}
+  \item Przed konfiguracją klienta FTP na kamerze należy upewnić się, że usługa serwera FTP jest uruchomiona na terminalu z Ubuntu. 
+  \item Kamera IP powinna zostać skonfigurowana w taki sposób aby detekcja samochodu powodowała zapisanie klatki i wysłanie jej za pomoca FTP do zdalej lokalizacji na systemie Ubuntu. W przypadku tego projektu kamera Zintronic umożliwa skonfigurowanie takiej opcji w zakładce 'Smart Event'.
+  \item Do wybranej lokalizacji na dysku powinien zostać pobrany projekt za pomocą gh repo clone lub git clone.
+  \item Zawartość folderu "apache" powinna znaleźć się w /var/www/html/.
+  \item W plikach php należy zweryfikować zmienne 'host', 'username', 'password' (wymaganne do poprawnego połączenia z bazą danych). 
+  \item W lokalizacji /var/www/html/ powinien być zainstalowany TCPDF.
+  \item Po przeładowaniu serwera www za pomocą systemctl restart apache2 powinna pojawić się strona logowania pod przypisanym do niego adresem lokalnym. Domyślny login i hasło to admin:admin. 
+\end{enumerate}
+
+
+
+
+% --------------------------------------------------------------------
+%%%%%%% odkomentować gdy bibliografia ma być wewnątrz dokumentu
+% --------------------------------------------------------------------
+%\begin{thebibliography}{11}
+%
+%\addcontentsline{toc}{section}{Literatura}
+%
+%\bibitem{ZAN}
+%C. Zannoni and P. Pasini, 
+%\emph{Advances in the Computer Simulatons of Liquid Crystals}, Kluwer Academic Publishers, 2000.
+%
+%\end{thebibliography}
+
+\end{document}
+
