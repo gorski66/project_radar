@@ -104,27 +104,27 @@ Instytut Bezpieczeństwa i Informatyki\\
 \end{center}
 
 \begin{center}
- {\bf \fontsize{14pt}{14pt}\selectfont PROJEKT INŻYNIERSKI \\ DOKUMENTACJA UŻYTKOWA}
+ {\bf \fontsize{14pt}{14pt}\selectfont PROJEKT INŻYNIERSKI\\ DOKUMENTACJA UŻYTKOWA}
 \end{center}
 \vskip 5pt
 \begin{center}
- {\bf \fontsize{22pt}{22pt}\selectfont TYTUŁ PROJEKTU}
+ {\bf \fontsize{22pt}{22pt}\selectfont RADAR ODCINKOWY}
 \end{center}
 
 \begin{center}
  {\fontsize{12pt}{12pt}\selectfont wykonany przez: }
 \end{center}
 \begin{center}
- {\bf\fontsize{16pt}{16pt}\selectfont Jan Kowalski}\\
- {\fontsize{12pt}{12pt}\selectfont Nr albumu: XXXXX \\\&\\}
- {\bf\fontsize{16pt}{16pt}\selectfont Anna Nowak}\\
- {\fontsize{12pt}{12pt}\selectfont Nr albumu: XXXXX\\\&\\}
- {\bf\fontsize{16pt}{16pt}\selectfont Karol Woźniak}\\
- {\fontsize{12pt}{12pt}\selectfont Nr albumu: XXXXX}
+ {\bf\fontsize{16pt}{16pt}\selectfont Tomasz Górski}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 151896 \\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Tomasz Joniec}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 151861\\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Patryk Golonka}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 145857}
 \end{center}
 \begin{center}
  {\fontsize{12pt}{12pt}\selectfont pod opieką:}\\
- {\bf\fontsize{12pt}{12pt}\selectfont tytuł, imię i nazwisko opiekuna projektu}
+ {\bf\fontsize{12pt}{12pt}\selectfont dr inż. Grzegorz Sokal, mgr Łukasz Przybytek}
 \end{center}
 
 %\mbox{}
@@ -148,19 +148,81 @@ Kraków \the\year\\
 \newpage
 
 \section{Szczegółowa dokumentacja użytkowa}
-\textit{Dokumentacja użytkowa - kierowana do użytkownika systemu. Pomijana w przypadku, gdy tworzony projekt nie ma charakteru aplikacji użytkowej (np. biblioteki programistyczne).} 
 \subsection{Opis funkcjonaliści projektowanego systemu}
-\textit{Sekcja powinna zawierać wyczerpujący opis wszystkich funkcjonalności systemu (menu, poszczególne okienka ze screenami, opis najistotniejszych ścieżek funkcjonalnych tzn. jak krok po kroku użytkownik powinien realizować najważniejsze funkcjonalności systemu.)}
+\begin{enumerate}
+  \item Rejestracja w systemie.
+        \begin{figure}[H]
+          \includegraphics[width=\linewidth]{dokumentacja_uzytkowa/images/register.JPG}
+          \label{fig:Rejestracja}
+        \end{figure}
+        \newpage
+  
+  \item Logowanie do systemu.
+        \begin{figure}[H]
+          \includegraphics[width=\linewidth]{dokumentacja_uzytkowa/images/login.JPG}
+          \label{fig:Logowanie}
+        \end{figure}        
+
+  
+  \item Prezentacja listy wykrytych zdarzeń przekroczenia prędkości.
+        \begin{figure}[H]
+          \includegraphics[width=\linewidth]{dokumentacja_uzytkowa/images/incidents.JPG}
+          \label{fig:Prezentacja}
+        \end{figure}
+        \newpage
+  
+  \item Generowanie raportu ze zdarzenia za pomocą zielonego przycisku "Generate Report". 
+        \begin{figure}[H]
+          \includegraphics[width=\linewidth]{dokumentacja_uzytkowa/images/report.JPG}
+          \label{fig:Generowanie}
+        \end{figure}  
+  \item Usunięcie rekordu z listy za pomocą czerwonego przycisku "Delete Record". 
+        \begin{figure}[H]
+          \includegraphics[width=\linewidth]{dokumentacja_uzytkowa/images/delete_1.JPG}
+          \label{fig:Usunięcie}
+        \end{figure}
+        \newpage
+
+  \item Wylogowanie z systemu za poomocą 'Logout' w prawym górnym rogu.
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=4cm]{dokumentacja_uzytkowa/images/logout.JPG}
+          \label{fig:Wylogowanie}
+        \end{figure}  
+\end{enumerate}
+
+
+
+
+
+
+
+
 \subsection{Przykładowe działanie systemu}
-\textit{Sekcja powinna zawierać tutoriale pokazujące realizację kluczowych funkcjonalności systemu dla przykładowych danych wejściowych.}
+Aby zaprezentować działanie systemu należy założyć hipotetyczne zdarzenia przekroczenia prędkości:
+\begin{enumerate}
+  \item Pojazd Toyota Corolla o nr rejestryjnych WE027PS porusza się autostradą.
+  \item Samochód przejeżdza przez punkt Balice. Pojazd zostaje rozpoznany przez oprogramowanie kamery, zdjęcie z timepstampem '2023-12-18 15:32:28' zostaje przesłane z kamery IP na serwer FTP natychmiastowo. 
+  \item Zgodnie z zaproponowanym ustawieniem crontab o 15:33 zostanie utworzony plik graficzny przedstawiający wyciętą rejestracje, o 15:37 numer rejestracyjny zostanie rozpoznany i informacje o przejeździe zostaną wysłane do bazy danych. 
+  \item Następnie pojazd przejeżdza przez punkt Chrzanów. Pojazd zostaje rozpoznany przez oprogramowanie kamery, zdjęcie z timepstampem '2023-12-18 15:55:28' zostaje przesłane z kamery IP na serwer FTP natychmiastowo. 
+  \item O 15:57 zostanie utworzony plik graficzny przedstawiający wyciętą rejestracje, o 16:02 numer rejestracyjny zostanie rozpoznany i informacje o przejeździe zostaną wysłane do bazy danych, zostanie zaktualizowany przejazd rozpoczęty o 15:32:28 ze względu na przekroczenie prędkości.
+  \item Gdy dane o przejezdzie zostaną w pełni wprowadzone do bazy i zostanie wykryty incydent przekroczenia prędkości to w interfejsie pojawi się odpowiedni wpis. 
+        \begin{figure}[H]
+          \includegraphics[width=\linewidth]{dokumentacja_uzytkowa/images/delete_2.JPG}
+          \label{fig:Generowanie}
+        \end{figure}    
+  \item Osoba obsługująca system może wygenerować raport ze zdarzenia, załączyć go do mandatu oraz usunąć incydent z listy. 
+        \begin{figure}[H]
+          \includegraphics[width=\linewidth]{dokumentacja_uzytkowa/images/report.JPG}
+          \label{fig:Generowanie}
+        \end{figure}           
+\end{enumerate}
 
 
 
 
 
-\renewcommand\refname{Literatura (jeżeli wymagana)}
-\bibliography{references}
-\addcontentsline{toc}{section}{Literatura}
+
 % --------------------------------------------------------------------
 %%%%%%% odkomentować gdy bibliografia ma być wewnątrz dokumentu
 % --------------------------------------------------------------------
