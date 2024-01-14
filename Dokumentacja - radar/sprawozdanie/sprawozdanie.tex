@@ -108,23 +108,23 @@ Instytut Bezpieczeństwa i Informatyki\\
 \end{center}
 \vskip 5pt
 \begin{center}
- {\bf \fontsize{22pt}{22pt}\selectfont TYTUŁ PROJEKTU}
+ {\bf \fontsize{22pt}{22pt}\selectfont RADAR ODCINKOWY}
 \end{center}
 
 \begin{center}
  {\fontsize{12pt}{12pt}\selectfont wykonany przez: }
 \end{center}
 \begin{center}
- {\bf\fontsize{16pt}{16pt}\selectfont Jan Kowalski}\\
- {\fontsize{12pt}{12pt}\selectfont Nr albumu: XXXXX \\\&\\}
- {\bf\fontsize{16pt}{16pt}\selectfont Anna Nowak}\\
- {\fontsize{12pt}{12pt}\selectfont Nr albumu: XXXXX\\\&\\}
- {\bf\fontsize{16pt}{16pt}\selectfont Karol Woźniak}\\
- {\fontsize{12pt}{12pt}\selectfont Nr albumu: XXXXX}
+ {\bf\fontsize{16pt}{16pt}\selectfont Tomasz Górski}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 151896 \\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Tomasz Joniec}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 151861\\\&\\}
+ {\bf\fontsize{16pt}{16pt}\selectfont Patryk Golonka}\\
+ {\fontsize{12pt}{12pt}\selectfont Nr albumu: 145857}
 \end{center}
 \begin{center}
  {\fontsize{12pt}{12pt}\selectfont pod opieką:}\\
- {\bf\fontsize{12pt}{12pt}\selectfont tytuł, imię i nazwisko opiekuna projektu}
+ {\bf\fontsize{12pt}{12pt}\selectfont dr inż. Grzegorz Sokal, mgr Łukasz Przybytek}
 \end{center}
 
 %\mbox{}
@@ -148,10 +148,37 @@ Kraków \the\year\\
 \newpage
 
 \section{Opis projektu}
-\textit{Krótki opis projektu.}
+Projekt dotyczy tworzenia inteligentnego systemu monitorującego ruch pojazdów na danym odcinku drogi, który jest zoptymalizowany do pracy na niskowydajnym mini-PC. Wykorzystuje on radar odcinkowy do pomiaru prędkości pojazdów oraz kamerę do rozpoznawania numerów rejestracyjnych. Detekcja pojazdu jest realizowana przez oprogramowanie kamery, co pozwala na optymalne wykorzystanie zasobów sprzętowych. Kamera IP, będąca integralną częścią systemu monitorowania ruchu pojazdów, komunikuje się z serwerem za pomocą protokołu FTP (File Transfer Protocol). Dzięki temu, obrazy i dane zgromadzone przez kamerę są przesyłane na serwer w sposób zorganizowany i bezpieczny.
+
+Proces identyfikacji numeru rejestracyjnego został podzielony na dwie fazy: w pierwszej fazie z obrazu kamery wycinana jest grafika zawierająca numer rejestracyjny, a w drugiej następuje właściwe rozpoznanie tablicy rejestracyjnej.
+
+Główne funkcje projektu obejmują identyfikację pojazdów na wejściu i wyjściu z danego odcinka, pomiar prędkości oraz obliczanie czasu podróży między dwoma punktami. Dane odczytane z radaru i kamery są zapisywane w bazie danych, umożliwiając monitorowanie ruchu oraz generowanie raportów. System został zaprojektowany tak, aby mógł obsłużyć maksymalnie jeden pojazd na sekundę, co jest kluczowe dla efektywności i dokładności monitorowania.
+
+Przygotowany projekt to propozycja do stworzenia większego projektu, który będzie miał zastosowanie w przypadku komercyjnego systemu kontroli ruchu drogowego oraz zarządzaniu danymi dotyczącymi pojazdów na danym odcinku drogi.
 
 \section{Opis zrealizowanych pracy}
-\textit{Przedstawienie zrealizowanych prac projektowych z wyszczególnieniem wkładu poszczególnych członków zespołu projektowego.}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{>{\centering}p{3cm}|>{\centering}p{5cm}|>{\centering}p{5cm}c}
+                                                      & imię i nazwisko członka zespołu & wkład poszczególnych członków &\\ \hline
+\multirow{3}{3cm}{\centering opracowanie koncepcji i~założeń}&
+			Tomasz Górski	&			&\\ \cline{2-4}&
+			Tomasz Joniec		&			&\\ \cline{2-4}&                                   			Patryk Golonka				&			&\\ \hline
+\multirow{3}{3cm}{\centering opracowanie metod}&
+			Tomasz Górski		&			&\\ \cline{2-4}&
+				Tomasz Joniec		&			&\\ \cline{2-4}&                                   		Patryk Golonka								&			&\\ \hline
+\multirow{3}{3cm}{\centering wykonanie części praktycznej}&
+				Tomasz Górski		&			&\\ \cline{2-4}&
+				Tomasz Joniec &			&\\ \cline{2-4}&                                   				Patryk Golonka					&			&\\ \hline
+\multirow{3}{3cm}{\centering przeprowadzenie testów}&
+				Tomasz Górski		&			&\\ \cline{2-4}&
+				Tomasz Joniec	&			&\\ \cline{2-4}&                                   			Patryk Golonka							&			&\\ \hline     
+\multirow{3}{3cm}{\centering wykonanie dokumentacji}&                                                                        
+				Tomasz Górski		&			&\\ \cline{2-4}&
+				Tomasz Joniec&			&\\ \cline{2-4}&                                   				Patryk Golonka						&			&
+\end{tabular}
+\end{table}
 \section{Wykaz załączników}
 \textit{Wykaz załączników i ich krótka charakteryzacja.}
 
@@ -160,7 +187,6 @@ Kraków \the\year\\
 \item \textit{dokumentacja projektowa;}
 \item \textit{dokumentacja użytkowa;}
 \item \textit{dokumentacja instalacyjno-konfiguracyjna systemu;}
-\item \textit{film dokumentujący działającą aplikację/system.}
 \end{itemize}
 
 \section{Oświadczenia}
@@ -170,48 +196,25 @@ Kraków \the\year\\
 
 Oświadczamy, że niniejszy projekt jest wynikiem samodzielnych prac prowadzonych przez nas pod nadzorem \textit{tytuł, imię i nazwisko opiekuna projektu}, Instytut Informatyki, Uniwersytet Pedagogiczny im. KEN w Krakowie. Oświadczamy również, że żadna część tego projektu i jego części nie została lub nie jest składana w~innym miejscu w celu uzyskania tytułu zawodowego/naukowego lub dyplomu.
 
-\vspace*{20pt}
-\noindent
-\textbf{imię i nazwisko studenta} \\
-\textbf{imię i nazwisko studenta} \\
-\textbf{imię i nazwisko studenta}\\
-\vspace*{20pt}
 
-\pagebreak
 \begin{center}
 \textbf{Oświadczenie o wkładzie pracy poszczególnych członków zespołu projektowego} 
 \end{center}
 
-Oświadczamy, że wkład poszczególnych członków zespołu  w powstanie niniejszego projektu inżynierskiego jest następujący:
-
-\begin{table}[H]
-\centering
-\begin{tabular}{>{\centering}p{3cm}|>{\centering}p{5cm}|>{\centering}p{5cm}c}
-                                                      & imię i nazwisko członka zespołu & wkład poszczególnych członków &\\ \hline
-\multirow{3}{3cm}{\centering opracowanie koncepcji i~założeń}&
-					&			&\\ \cline{2-4}&
-					&			&\\ \cline{2-4}&                                   									&			&\\ \hline
-\multirow{3}{3cm}{\centering opracowanie metod}&
-					&			&\\ \cline{2-4}&
-					&			&\\ \cline{2-4}&                                   									&			&\\ \hline
-\multirow{3}{3cm}{\centering przeprowadzenie badań}&
-					&			&\\ \cline{2-4}&
-					&			&\\ \cline{2-4}&                                   									&			&\\ \hline
-\multirow{3}{3cm}{\centering wykonanie części praktycznej}&
-					&			&\\ \cline{2-4}&
-					&			&\\ \cline{2-4}&                                   									&			&\\ \hline
-\multirow{3}{3cm}{\centering pozostały wkład (sprecyzować rodzaj)}&                                                                        
-					&			&\\ \cline{2-4}&
-					&			&\\ \cline{2-4}&                                   									&			&
-\end{tabular}
-\end{table}
-
+Oświadczamy, że wkład poszczególnych członków zespołu  w powstanie niniejszego projektu inżynierskiego jest taki jak przedstawiono w Opisie zrealizowanych prac. 
 
 \vspace*{20pt}
 \noindent
-\textbf{imię i nazwisko studenta} \\
-\textbf{imię i nazwisko student}a \\
-\textbf{imię i nazwisko studenta }\\
+\textbf{Tomasz Górski} \\
+\textbf{Tomasz Joniec} \\
+\textbf{Patryk Golonka}\\
+\vspace*{20pt}
+
+\pagebreak
+
+
+
+
 
 \renewcommand\refname{Literatura (jeżeli wymagana)}
 \bibliography{references}
