@@ -3,16 +3,16 @@ import cv2
 
 kNearest = cv2.ml.KNearest_create()
 
-# The size of license plate in Poland is 520 x 114 mm.
-# choose smaller ratio to accept bigger contours
-# Width to height ratio of license plates in Poland.
+# Rozmiar tablicy rejestracyjnej w Polsce wynosi 520 x 114 mm.
+# wybierz mniejszy stosunek, aby zaakceptować większe kontury
+# Stosunek szerokości do wysokości tablic rejestracyjnych w Polsce.
 PLATE_HEIGHT_TO_WIDTH_RATIO = 90 / 520
 
-# Width and height ratio of character
+# Stosunek szerokości do wysokości znaku
 CHAR_RATIO_MIN = 0.25
 CHAR_RATIO_MAX = 0.85
 
-# Number of characters on polish license plate
+# Liczba znaków na polskiej tablicy rejestracyjnej
 LICENSE_PLATE_LENGTH = 7
 
 RESIZED_CHAR_IMAGE_WIDTH = 20
@@ -23,7 +23,7 @@ SHOW_STEPS = False
 
 def train_KNN(classifications, flattened_images):
     """
-    Function that trains kNearest object based on given characters classifications and flattened images of characters
+    Funkcja trenująca obiekt kNearest na podstawie podanych klasyfikacji znaków i spłaszczonych obrazów znaków
     :param classifications: classification of characters
     :param flattened_images: flattened images with characters
     :return: True when finished
@@ -44,12 +44,12 @@ def train_KNN(classifications, flattened_images):
 
 def get_potential_chars_ROI(chars_potential_plate):
     """
-    Function that finds potential license plate with closest to 7 characters on it
+    Funkcja, która znajduje potencjalne tablice rejestracyjne z najbliższymi do 7 znaków na nich
     :param chars_potential_plate: list of list of potential plate ROIs
     :return: index of list containing ROIs with closest to 7 characters
     """
 
-    offset = 0  # this variable helps if there's more potential chars on potential plate than defined in CHARACTERS_NUMBER
+    offset = 0  # ta zmienna pomaga, jeśli jest więcej potencjalnych znaków na potencjalnej tablicy niż zdefiniowano w CHARACTERS_NUMBER
     while True:
         for ROI_idx, potential_chars_ROI in enumerate(chars_potential_plate):
             if len(potential_chars_ROI) > 0:
@@ -62,39 +62,39 @@ def get_potential_chars_ROI(chars_potential_plate):
 
 def recognize_chars_in_plate(potential_chars_ROI, img_gray):
     """
-    Function that recognize characters on given image based on ROIs of potential characters
+    Funkcja, która rozpoznaje znaki na podanym obrazie na podstawie ROI potencjalnych znaków
     :param potential_chars_ROI: ROIs of potential characters
     :param img_gray: gray scale image containing potential characters
     :return:
     license_plate - string containing recognized characters on license plate
     potential_chars_ROI - list of potential chars ROIs
     """
-    # threshold image
+    # progowanie obrazu
     ret, img_threshed = cv2.threshold(img_gray, 200, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
-    # license plate to be returned. We will add each recognized character
+    # tablica rejestracyjna do zwrócenia. Dodamy każdy rozpoznany znak.
     license_plate = ""
-    # sort potential chars ROIs from left to right
+    # sortuj potencjalne ROI znaków od lewej do prawej
     potential_chars_ROI = sorted(potential_chars_ROI, key=lambda ROI: ROI[0])
     dist_list = []
     for current_char in potential_chars_ROI:
-        # get ROI of each potential character
+        # uzyskaj ROI każdego potencjalnego znaku
         img_ROI = img_threshed[current_char[1]:current_char[1] + current_char[3],
                   current_char[0]:current_char[0] + current_char[2]]
-        # resize ROI to defined in KNN training size
+        # zmień rozmiar ROI do zdefiniowanego rozmiaru w treningu KNN
         img_ROI_resized = cv2.resize(img_ROI, (RESIZED_CHAR_IMAGE_WIDTH, RESIZED_CHAR_IMAGE_HEIGHT))
-        # reshape ROI to match KNN data
+        # przekształć ROI, aby pasowało do danych KNN
         npa_ROI_resized = img_ROI_resized.reshape((1, RESIZED_CHAR_IMAGE_WIDTH * RESIZED_CHAR_IMAGE_HEIGHT))
-        # convert default image type (int) to float
+        # przekonwertuj domyślny typ obrazu (int) na float
         npa_ROI_resized = np.float32(npa_ROI_resized)
-        # find nearest neighbour
+        # znajdź najbliższego sąsiada
         retval, npa_results, neigh_resp, dists = kNearest.findNearest(npa_ROI_resized, k=1)
-        # save distance returned by KNN to determine which character is recognized incorrectly, when there's more chars
-        # than in CHARACTERS_NUMBER
+        # zapisz odległość zwróconą przez KNN, aby określić, który znak jest rozpoznany nieprawidłowo, gdy jest więcej znaków
+        # niż w CHARACTERS_NUMBER
         dist = dists[0][0]
         dist_list.append(dist)
-        # retrieve character
+        # pobierz znak
         currentChar = str(chr(int(npa_results[0][0])))
-        # add character to license plate string
+        # dodaj znak do ciągu tablicy rejestracyjnej
         license_plate = license_plate + currentChar
 
     if SHOW_STEPS:
@@ -114,19 +114,19 @@ def recognize_chars_in_plate(potential_chars_ROI, img_gray):
 
 def license_plate_rules(license_plate, three_chars):
     """
-    Check if returned license plate match rules about license plates in Poland.
-    If character in license plate is in incorrect place( for example Z is in second part of plate) change it to correct
-    one (Z -> 2)
+    Sprawdź, czy zwrócona tablica rejestracyjna pasuje do zasad dotyczących tablic rejestracyjnych w Polsce.
+    Jeśli znak na tablicy rejestracyjnej jest w nieprawidłowym miejscu (na przykład Z jest w drugiej części tablicy) zmień go na poprawny
+    (Z -> 2)
     https://pl.wikipedia.org/wiki/Tablice_rejestracyjne_w_Polsce#Opis_systemu_tablic_rejestracyjnych_w_Polsce
     :param license_plate: string containing license plate
     :param three_chars: TRUE if license plate has 3 chars in first part
     :return: license_plate: string containing fixed license plate
     """
 
-    # forbidden letters in first part of license plate and theirs corresponding matching
+    #  zakazane litery w pierwszej części tablicy rejestracyjnej i ich odpowiadające dopasowania
     forbidden_chars_1 = {'0': 'O', '1': 'I', '2': 'Z', '3': 'B', '4': 'A', '5': 'S',
                          '6': 'G', '7': 'Z', '8': 'B', '9': 'P', 'X': 'K'}
-    # forbidden letters in second part of license plate and theirs corresponding matching
+    # zakazane litery w drugiej części tablicy rejestracyjnej i ich odpowiadające dopasowania
     forbidden_chars_2 = {'B': '8', 'D': '0', 'I': '1', 'O': '0', 'Z': '2'}
 
     first_part_len = 2
