@@ -28,15 +28,15 @@ def train_KNN(classifications, flattened_images):
     :param flattened_images: flattened images with characters
     :return: True when finished
     """
-    # training classifications
+    # klasyfikacje treningowe
     npa_classifications = classifications.astype(np.float32)
-    # training images
+    # obrazy treningowe
     npa_flattened_images = flattened_images.astype(np.float32)
-    # reshape numpy array to 1d, necessary to pass to call to train
+    # przekształcenie tablicy numpy na 1d, konieczne do przekazania do wywołania funkcji train
     npa_classifications = npa_classifications.reshape((npa_classifications.size, 1))
-    # set default K to 1
+    # ustawienie domyślnego K na 1
     kNearest.setDefaultK(1)
-    # train KNN object
+    # trening obiektu KNN
     kNearest.train(npa_flattened_images, cv2.ml.ROW_SAMPLE, npa_classifications)
 
     return True
@@ -99,7 +99,7 @@ def recognize_chars_in_plate(potential_chars_ROI, img_gray):
 
     if SHOW_STEPS:
         print(f"KNN distances: {dist_list}")
-    # when there's more chars than it should be, determine which character is recognized incorrectly
+    # gdy jest więcej znaków niż powinno być, ustal, który znak jest rozpoznany nieprawidłowo
     while len(license_plate) > LICENSE_PLATE_LENGTH:
         incorrect_char_idx = np.argmax(dist_list)
         license_plate = license_plate[0:incorrect_char_idx:] + license_plate[incorrect_char_idx + 1::]
@@ -133,17 +133,17 @@ def license_plate_rules(license_plate, three_chars):
     if three_chars:
         first_part_len = 3
 
-    # if given length of license plate is smaller than LICENSE_PLATE_LENGTH
-    # then don't change two first numbers to letters
+    # jeśli długość podanej tablicy rejestracyjnej jest mniejsza niż LICENSE_PLATE_LENGTH
+    # wtedy nie zmieniaj dwóch pierwszych cyfr na litery
     if len(license_plate) == LICENSE_PLATE_LENGTH:
-        # if any of first two characters is number change it to corresponding letters
+        # jeśli którykolwiek z pierwszych dwóch znaków to cyfra, zmień ją na odpowiadającą literę
         for i in range(first_part_len):
             if license_plate[i] in forbidden_chars_1:
                 new_char = forbidden_chars_1[license_plate[i]]
                 s = list(license_plate)
                 s[i] = new_char
                 license_plate = "".join(s)
-        # check second part of license plate
+        # sprawdź drugą część tablicy rejestracyjnej
         for i in range(first_part_len, len(license_plate)):
             if license_plate[i] in forbidden_chars_2:
                 new_char = forbidden_chars_2[license_plate[i]]
@@ -159,7 +159,7 @@ def license_plate_rules(license_plate, three_chars):
 
 def fill_empty_chars(license_plate, chars_ROI):
     """
-    Function that fills empty characters wtih ? in found license plate
+    Funkcja wypełniająca puste znaki znakiem '?' w wykrytej tablicy rejestracyjnej.
 
     :param license_plate: license plate to fill
     :param chars_ROI: [x, y, w, h] for each character
@@ -167,13 +167,13 @@ def fill_empty_chars(license_plate, chars_ROI):
     license plate - string with filled license plate
     chars_ROI - ROIs of ? on image
     """
-    # find the widest character
+    # znajdź najszerszy znak
     widest_char = max(map(lambda x: x[2], chars_ROI))
 
     while len(license_plate) != LICENSE_PLATE_LENGTH:
-        # distance between detected chars
+        # odległości między wykrytymi znakami
         distance_between_chars = []
-        # calculate distance between each character
+        # oblicz odległość między każdym znakiem
         for i, ROI in enumerate(chars_ROI):
             if i == 0:
                 distance = ROI[0]
@@ -182,13 +182,13 @@ def fill_empty_chars(license_plate, chars_ROI):
                 distance = chars_ROI[i][0] - (chars_ROI[i - 1][0] + chars_ROI[i - 1][2])
                 distance_between_chars.append(distance)
 
-        # find biggest distance between characters and fill this place with character and generated ROI
+        # znajdź największą odległość między znakami i wypełnij to miejsce znakiem oraz wygenerowanym ROI
         char_idx = np.argmax(distance_between_chars)
-        # add character in char_idx place
+        # dodaj znak na miejscu char_idx
         s = list(license_plate)
-        s.insert(char_idx, '?')  # insert ? in empty space
+        s.insert(char_idx, '?')  # wstaw '?' w puste miejsce
         license_plate = "".join(s)
-        # add generated ROI in char_idx place
+        # dodaj wygenerowane ROI na miejscu char_idx
         new_ROI = list(np.copy(chars_ROI[char_idx]))
         new_ROI[0] -= (widest_char + 1)
         chars_ROI.insert(char_idx, new_ROI)
@@ -201,8 +201,8 @@ def fill_empty_chars(license_plate, chars_ROI):
 
 def preprocess(image, parameters=(False, False)):
     """
-    Function that prepare image to further processing.
-    Converting image to gray scale, resizing image, blurring image, finding edges on image
+    Funkcja przygotowująca obraz do dalszej obróbki.
+    Konwersja obrazu na skale szarości, zmiana rozmiaru obrazu, rozmycie obrazu, wykrywanie krawędzi na obrazie.
 
     :param image: image you want to preprocess
     :param parameters:
@@ -213,27 +213,27 @@ def preprocess(image, parameters=(False, False)):
     gray_edge -> grayscale image with edges
     width -> width of image after resizing
     """
-    # convert image to gray scale
+    # konwertuj obraz na skalę szarości
     gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # resize image for faster processing
+    # zmień rozmiar obrazu dla szybszej obróbki
     gray_img = cv2.resize(gray_img, (768, 576))
     # image_resied = cv2.resize(image, (768, 576))
 
-    # get shape of resized image
+    # pobierz wymiary zmienionego rozmiaru obrazu
     height = gray_img.shape[0]
     width = gray_img.shape[1]
 
-    # blur image
+    # rozmyj obraz
     if not parameters[0]:
         gray_blur = cv2.bilateralFilter(gray_img, 11, 55, 55)
     else:  # change parameters of filter if we couldn't find any license plate before
         gray_blur = cv2.bilateralFilter(gray_img, 11, 17, 17)
 
-    # find edges in image
+    # wykryj krawędzie na obrazie
     if not parameters[1]:
         gray_edges = cv2.Canny(gray_blur, 85, 255)
-    else:  # change parameters of edge detection if we couldn't find any license plate before
+    else:  # zmień parametry wykrywania krawędzi, jeśli wcześniej nie udało się znaleźć żadnej tablicy rejestracyjnej
         gray_edges = cv2.Canny(gray_blur, 30, 200)
 
     return gray_blur, gray_edges, width
@@ -241,36 +241,36 @@ def preprocess(image, parameters=(False, False)):
 
 def find_potential_plates_vertices(gray_edges, width):
     """
-    Function that finds vertices of potential license plate on edge image
+     Funkcja znajdująca wierzchołki potencjalnych tablic rejestracyjnych na obrazie z wykrytymi krawędziami.
 
     :param gray_edges: edge image
     :param width: width of image
     :return: list of potential plates vertices
     """
-    # find contours on image with edges
+    # znajdź kontury na obrazie z krawędziami
     contours, hierarchy = cv2.findContours(gray_edges.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # find potential contours that matches license plate dimensions
+    # znajdź potencjalne kontury pasujące do wymiarów tablicy rejestracyjnej
     potential_plates_vertices = []
     for contour in contours:
         [x, y, w, h] = cv2.boundingRect(contour)
 
-        # exclude contours that are smaller than 1/3 of image width and their height doesn't match ratio of licenseplate
+         # wyklucz kontury mniejsze niż 1/3 szerokości obrazu i których wysokość nie odpowiada stosunkowi wymiarów tablicy rejestracyjnej
         if w < (width / 3) or h < (w * PLATE_HEIGHT_TO_WIDTH_RATIO) or w == width:
             continue
 
-        # lines below and get_birds_eye_view are adapted from
+        # poniższe linie oraz get_birds_eye_view są zaadaptowane z:
         # https://www.pyimagesearch.com/2014/04/21/building-pokedex-python-finding-game-boy-screen-step-4-6/
         # https://www.pyimagesearch.com/2014/05/05/building-pokedex-python-opencv-perspective-warping-step-5-6/
-        # reshape contour of potential plate
+        # przekształć kontur potencjalnej tablicy
         pts = contour.reshape(contour.shape[0], 2)
-        # vertices of plate rectangle
+        # wierzchołki prostokąta tablicy
         vertices = np.zeros((4, 2), dtype="float32")
-        # top left point has smallest sum and bottom right has smallest sum
+        # górny lewy punkt ma najmniejszą sumę, a dolny prawy ma największą
         s = pts.sum(axis=1)
         vertices[0] = pts[np.argmin(s)]
         vertices[2] = pts[np.argmax(s)]
-        # top right has minimum difference and bottom left has maximum difference
+         # górny prawy ma najmniejszą różnicę, a dolny lewy największą
         diff = np.diff(pts, axis=1)
         vertices[1] = pts[np.argmin(diff)]
         vertices[3] = pts[np.argmax(diff)]
@@ -281,7 +281,7 @@ def find_potential_plates_vertices(gray_edges, width):
 
 def get_birds_eye_view(potential_plates_vertices, gray_edges, gray_blur, skip_ratio_check=False):
     """
-    changes perspective in all potential license plates to birds eye view
+    Zmienia perspektywę we wszystkich potencjalnych tablicach rejestracyjnych na widok z lotu ptaka.
 
     :param potential_plates_vertices: list of vertices of potential license plate
     :param gray_edges: edge image used in warp perspective
@@ -290,43 +290,43 @@ def get_birds_eye_view(potential_plates_vertices, gray_edges, gray_blur, skip_ra
     :return: warped_plates_edges: list containing birds eye view edge images with license plate
     warped_plates_gray: list containing birds eye view blur images with license plate
     """
-    # change perspective in all potential license plates, to "birds eye" view
+    # zmienia perspektywę we wszystkich potencjalnych tablicach rejestracyjnych, aby uzyskać "widok z lotu ptaka"
     warped_plates_edges = []
     warped_plates_gray = []
     for idx, vertices in enumerate(potential_plates_vertices):
-        # get all corners in easier way to code
+         # uzyskaj wszystkie rogi w prostszy sposób do kodowania
         (tl, tr, br, bl) = vertices
-        # compute width and height of image created by corners
+        # oblicz szerokość i wysokość obrazu utworzonego przez rogi
         widthA = np.sqrt(((br[0] - bl[0]) ** 2) + ((br[1] - bl[1]) ** 2))
         widthB = np.sqrt(((tr[0] - tl[0]) ** 2) + ((tr[1] - tl[1]) ** 2))
         heightA = np.sqrt(((tr[0] - br[0]) ** 2) + ((tr[1] - br[1]) ** 2))
         heightB = np.sqrt(((tl[0] - bl[0]) ** 2) + ((tl[1] - bl[1]) ** 2))
-        # take the maximum of the width and height values to reach final dimensions
+        # wybierz maksymalne wartości szerokości i wysokości, aby osiągnąć końcowe wymiary
         maxWidth = max(int(widthA), int(widthB))
         maxHeight = max(int(heightA), int(heightB))
 
-        # if we couldn't get birds eye view in the first attempt, because image didn't match license plate ratio
-        # then skip this step
+        # jeśli w pierwszej próbie nie udało się uzyskać widoku z lotu ptaka, ponieważ obraz nie odpowiadał stosunkowi wymiarów tablicy rejestracyjnej
+        # wtedy pomiń ten krok
         if not skip_ratio_check:
-            # stop considering images that don't match license plate width to height ratio
+             # przestań rozważać obrazy, które nie odpowiadają stosunkowi szerokości do wysokości tablicy rejestracyjnej
             if maxHeight < maxWidth * PLATE_HEIGHT_TO_WIDTH_RATIO:
                 continue
 
-        # construct destination points which will be used to map the screen to a top-down, "birds eye" view
+        # skonstruuj punkty docelowe, które będą używane do mapowania ekranu na widok z góry, "widok z lotu ptaka"
         dst = np.array([
             [0, 0],
             [maxWidth - 1, 0],
             [maxWidth - 1, maxHeight - 1],
             [0, maxHeight - 1]], dtype="float32")
-        # calculate the perspective transform matrix and warp the perspective to grab the screen
+         # oblicz macierz transformacji perspektywy i przekształć perspektywę, aby uchwycić ekran
         M = cv2.getPerspectiveTransform(vertices, dst)
         warp_edges = cv2.warpPerspective(gray_edges, M, (maxWidth, maxHeight))
         warp_gray = cv2.warpPerspective(gray_blur, M, (maxWidth, maxHeight))
 
-        # stop considering image that contains only zeros
+       # przestań rozważać obraz, który zawiera tylko zera
         if not np.any(warp_edges):
             continue
-        # add warped image to list
+        # dodaj przekształcony obraz do listy
         warped_plates_edges.append(warp_edges)
         warped_plates_gray.append(warp_gray)
 
@@ -335,7 +335,7 @@ def get_birds_eye_view(potential_plates_vertices, gray_edges, gray_blur, skip_ra
 
 def find_potential_chars_on_plates(warped_plates_edges):
     """
-    Function that finds ROIs of potential chars on image containing license plate
+    Funkcja znajdująca ROI potencjalnych znaków na obrazie zawierającym tablicę rejestracyjną.
 
     :param warped_plates_edges: list containing birds eye view edge images with license plate
     :return: list of ROIS of potential chars on license plate
@@ -352,16 +352,16 @@ def find_potential_chars_on_plates(warped_plates_edges):
         for i, cntr in enumerate(char_contours):
             [x, y, w, h] = cv2.boundingRect(cntr)
             bounding_area = w * h
-            # check contour size to match potential character size
+             # sprawdź rozmiar konturu, aby dopasować potencjalny rozmiar znaku
             if (bounding_area < (0.025 * plate_area) or bounding_area > (0.4 * plate_area)) or \
                     (CHAR_RATIO_MIN * h > w or w > CHAR_RATIO_MAX * h):
                 continue  # no character found
-            # check if there's no repeating contour (contour in contour)
+            # sprawdź, czy nie ma powtarzającego się konturu (kontur w konturze)
             if char_hierarchy[0, i, 3] != -1:
-                # and if parent contour isn't plate contour
+                # i jeśli kontur nadrzędny nie jest konturem tablicy
                 if cv2.contourArea(char_contours[char_hierarchy[0, i, 3]]) < 0.4 * plate_area:
                     continue
-            # add ROI of potential char
+            # dodaj ROI potencjalnego znaku
             potential_chars_ROI.append([x, y, w, h])
             cv2.rectangle(plate, (x, y), (x + w, y + h), 100)
         chars_potential_plate.append(potential_chars_ROI)
@@ -374,7 +374,7 @@ def find_potential_chars_on_plates(warped_plates_edges):
 
 def three_chars_in_first_part(chars_ROI):
     """
-    Function that checks if license plate has 3 chars in first part of license plate or 2
+     Funkcja sprawdzająca, czy tablica rejestracyjna ma 3 znaki w pierwszej części tablicy rejestracyjnej czy 2.
 
     :param chars_ROI: list of [x, y, w, h] for each character
     :return: TRUE if license plate has 3 chars in first part
@@ -388,7 +388,7 @@ def three_chars_in_first_part(chars_ROI):
 
     if SHOW_STEPS:
         print(distance_between_chars)
-    # if biggest distance is between 3rd and 4th character then license plate has 3 characters in first part
+     # jeśli największa odległość jest między 3. a 4. znakiem, to tablica ma 3 znaki w pierwszej części
     if np.argmax(distance_between_chars) == 2:
         if SHOW_STEPS:
             print("3 CHARS")
@@ -401,7 +401,7 @@ def three_chars_in_first_part(chars_ROI):
 
 def recognize_license_plate(image: np.ndarray) -> str:
     """
-    Function that recognize license plate on given image
+    Funkcja rozpoznająca tablicę rejestracyjną na podanym obrazie.
 
     :param image: image containing license plate
     :return: string of characters found on license plate
@@ -411,57 +411,57 @@ def recognize_license_plate(image: np.ndarray) -> str:
     if SHOW_STEPS:
         print("\n \n \n \n \n \n")
 
-    # preprocess image to get useful data
+     # przetwarzanie wstępne obrazu w celu uzyskania użytecznych danych
     gray_blur, gray_edges, width = preprocess(image)
 
-    # find vertices of potential plate
+     # znajdowanie wierzchołków potencjalnych tablic
     potential_plates_vertices = find_potential_plates_vertices(gray_edges, width)
 
-    # get bird eye view of potential plate based on found vertices
+    # uzyskiwanie widoku z lotu ptaka potencjalnych tablic na podstawie znalezionych wierzchołków
     warped_plates_edges, warped_plates_gray = get_birds_eye_view(potential_plates_vertices, gray_edges, gray_blur)
 
-    # find potential characters on potential plates
+    # znajdowanie potencjalnych znaków na potencjalnych tablicach
     chars_potential_plate = find_potential_chars_on_plates(warped_plates_edges)
 
-    # if no potential chars in plate found get birds eye view once more but with other parameters
+    # jeśli nie znaleziono potencjalnych znaków na tablicach, uzyskaj widok z lotu ptaka jeszcze raz, ale z innymi parametrami
     if not any(chars_potential_plate):
         if SHOW_STEPS:
             print(f"No chars found in first try")
 
-        # get bird eye view once again but this time, skip ratio checking
+         # uzyskaj widok z lotu ptaka jeszcze raz, ale tym razem pomiń sprawdzanie stosunku wymiarów
         warped_plates_edges, warped_plates_gray = get_birds_eye_view(potential_plates_vertices, gray_edges,
                                                                      gray_blur, True)
 
-        # find potential characters on potential plates
+        # znajdowanie potencjalnych znaków na potencjalnych tablicach
         chars_potential_plate = find_potential_chars_on_plates(warped_plates_edges)
 
-        # if no potential chars found after skipping ratio checking
-        # preprocess image once more with different parameters in preprocessing
+        # jeśli nadal nie znaleziono potencjalnych znaków po pominięciu sprawdzania stosunku wymiarów
+        # przetwórz obraz jeszcze raz z innymi parametrami
         if not any(chars_potential_plate):
             if SHOW_STEPS:
                 print(f"No chars found after skipping ratio checking")
                 print("Trying with different preprocessing parameters...")
-            # list of parameter tuples for preprocessing
-            # index 0 -> if True chooses second parameters for image filtering
-            # index 1 -> if True chooses second parameters for detecting edges
+            # lista parametrów w tupli dla przetwarzania wstępnego
+            # index 0 -> jeśli True wybiera drugie parametry filtrowania obrazu
+            # index 1 -> jeśli True wybiera drugie parametry do wykrywania krawędzi
             preprocess_parameters = [(True, False), (False, True), (True, True)]
 
             for params in preprocess_parameters:
                 gray_blur, gray_edges, width = preprocess(image, params)
-                # find vertices of potential plate
+                # znajdź wierzchołki potencjalnych tablic
                 potential_plates_vertices = find_potential_plates_vertices(gray_edges, width)
-                # get bird eye view of potential plate based on found vertices
+                # uzyskaj widok z lotu ptaka potencjalnych tablic na podstawie znalezionych wierzchołków
                 warped_plates_edges, warped_plates_gray = get_birds_eye_view(potential_plates_vertices, gray_edges,
                                                                              gray_blur, True)
-                # find potential characters on potential plates
+                 # znajdź potencjalne znaki na potencjalnych tablicach
                 chars_potential_plate = find_potential_chars_on_plates(warped_plates_edges)
-                # if no potential chars found in this try, try with different preprocess parameters
+                # jeśli nie znaleziono potencjalnych znaków w tej próbie, spróbuj z innymi parametrami przetwarzania wstępnego
                 if not any(chars_potential_plate):
                     continue
                 else:
                     break
 
-            # if no potential chars found in image with all combinations then return empty license plate
+             # jeśli nie znaleziono potencjalnych znaków na obrazie przy wszystkich kombinacjach, zwróć pustą tablicę rejestracyjną
             if not any(chars_potential_plate):
                 if SHOW_STEPS:
                     print("NO LICENSE PLATE FOUND ON IMAGE")
@@ -471,24 +471,23 @@ def recognize_license_plate(image: np.ndarray) -> str:
         for idx, potential_chars_ROI in enumerate(chars_potential_plate):
             print(f"Potential plate index: {idx} -> potential chars {len(potential_chars_ROI)}")
 
-    # Choose potential license plate with 7 potential characters. If there's no 7 potential characters in any of
-    # potential license plate then choose license plate with closest to 7 number of characters.
-    # Then get ROI of potential characters and gray image of this plate.
+    # Wybierz potencjalną tablicę rejestracyjną z 7 potencjalnymi znakami. Jeśli żadna z potencjalnych tablic rejestracyjnych nie ma 7 potencjalnych znaków,
+    # wybierz tablicę z liczbą znaków najbliższą 7. Następnie uzyskaj ROI potencjalnych znaków i szary obraz tej tablicy.
     potential_chars_ROI_idx = get_potential_chars_ROI(chars_potential_plate)
     potential_chars_ROI = chars_potential_plate[potential_chars_ROI_idx]
     potential_chars_gray_img = warped_plates_gray[potential_chars_ROI_idx]
 
-    # recognize characters in license plate
+    # rozpoznaj znaki na tablicy rejestracyjnej
     license_plate, potential_chars_ROI = recognize_chars_in_plate(potential_chars_ROI, potential_chars_gray_img)
 
-    # if there's less chars on license plate that it should be, fill empty spaces based on positions of chars
+    # jeśli na tablicy jest mniej znaków niż powinno być, wypełnij puste miejsca na podstawie pozycji znaków
     if len(potential_chars_ROI) < LICENSE_PLATE_LENGTH:
         license_plate, potential_chars_ROI = fill_empty_chars(license_plate, potential_chars_ROI)
 
-    # check if license plate has 3 characters in first part or 2 characters
+    # sprawdź, czy tablica rejestracyjna ma 3 lub 2 znaki w pierwszej części 
     three_chars = three_chars_in_first_part(potential_chars_ROI)
 
-    # check if returned license plate match polish rules. If not change character based on character similarity
+    # sprawdź, czy zwrócona tablica rejestracyjna pasuje do zasad dotyczących tablic rejestracyjnych w Polsce. Jeśli nie, zmień znak na podstawie podobieństwa znaków
     license_plate = license_plate_rules(license_plate, three_chars)
 
     if SHOW_STEPS:
