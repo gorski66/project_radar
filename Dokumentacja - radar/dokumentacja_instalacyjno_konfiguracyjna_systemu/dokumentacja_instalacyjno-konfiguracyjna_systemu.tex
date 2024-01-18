@@ -172,10 +172,11 @@ Do poprawnego działania wymagane jest instalacja poniższego oprogramowania:
 \begin{enumerate}
   \item Przed konfiguracją klienta FTP na kamerze należy upewnić się, że usługa serwera FTP jest uruchomiona na terminalu z Ubuntu. 
   \item Kamera IP powinna zostać skonfigurowana w taki sposób aby detekcja samochodu powodowała zapisanie klatki i wysłanie jej za pomoca FTP do zdalej lokalizacji na systemie Ubuntu. W przypadku tego projektu kamera Zintronic umożliwa skonfigurowanie takiej opcji w zakładce 'Smart Event'.
-  \item Do wybranej lokalizacji na dysku powinien zostać pobrany projekt za pomocą gh repo clone lub git clone.
-  \item Zawartość folderu "apache" powinna znaleźć się w /var/www/html/.
+  \item Do wybranej lokalizacji na dysku powinien zostać pobrany projekt, można to zrobić również za pomocą gh repo clone lub git clone (github.com/gorski66/project{\_}radar).
+  \item Zawartość folderu 'apache' powinna znaleźć się w '/var/www/html/'.
+  \item Ze skryptu 'struktura{\_}bazy{\_}radar.sql' odtworzyć strukture bazy danych 'radar'.
   \item W plikach php należy zweryfikować zmienne 'host', 'username', 'password' (wymaganne do poprawnego połączenia z bazą danych). 
-  \item W lokalizacji /var/www/html/ powinien być zainstalowany TCPDF.
+  \item W lokalizacji '/var/www/html/' zainstalować TCPDF.
   \item Po przeładowaniu serwera www za pomocą systemctl restart apache2 powinna pojawić się strona logowania pod przypisanym do niego adresem lokalnym. Domyślny login i hasło to admin:admin. 
 \end{enumerate}
 

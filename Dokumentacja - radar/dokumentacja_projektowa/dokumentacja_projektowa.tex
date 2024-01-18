@@ -178,9 +178,13 @@ Kraków \the\year\\
 \newpage
 
 \section{Szczegółowa dokumentacja projektowa}
-\textit{W zależności od specyfiki projektu! Wymienione niżej podpunkty mają charakter orientacyjny.}
 \subsection{Projekt UML}
-\textit{W szczególności: diagram klas, ew. np. przypadki użycia, diagramy sekwencji, czynności, stanów, obiektów/komponentów/pakietów itp.}
+        \begin{figure}[H]
+          \includegraphics[width=0.8\linewidth]{dokumentacja_projektowa/images/uml.JPG}
+          \label{fig:Generowanie}
+        \end{figure}
+
+        \newpage
 \subsection{Projekt bazy danych}
 Baza danych 'radar' składa się z 4 tabel, które służą do zbierania danych wejściowych z kamer oraz do prezentowania wyników za pomocą raportu dla zarejestrowanych użytkowników. Poniżej opis tabel wraz z omówieniem kolumn przechowujących dane.\\
 
@@ -704,7 +708,6 @@ Skrypt main.py w projekcie rozpoznawania tablic rejestracyjnych pełni funkcję 
 Skrypt main.py jest sercem systemu i koordynuje wszystkie kluczowe etapy procesu rozpoznawania tablic rejestracyjnych. Od wczytywania obrazów, poprzez ich analizę, rozpoznawanie znaków, aż po zapis wyników i interakcję z bazą danych. Jest to dobrze zorganizowany i modułowy kod, który efektywnie integruje różne aspekty systemu rozpoznawania tablic rejestracyjnych.
 
 
-Opis katalogu apache 
 
 Katalog apache odpowiedzialny za serwis apache2 składa się z następujących plików i katalogów:
 
@@ -758,9 +761,7 @@ Do pracy nad projektem można użyć dowolnego systemu operacyjnego. Dla systemu
 
 
 
-\renewcommand\refname{Literatura (jeżeli wymagana)}
-\bibliography{references}
-\addcontentsline{toc}{section}{Literatura}
+
 % --------------------------------------------------------------------
 %%%%%%% odkomentować gdy bibliografia ma być wewnątrz dokumentu
 % --------------------------------------------------------------------

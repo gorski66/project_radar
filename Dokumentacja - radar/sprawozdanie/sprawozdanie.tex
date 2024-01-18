@@ -148,13 +148,9 @@ Kraków \the\year\\
 \newpage
 
 \section{Opis projektu}
-Projekt dotyczy tworzenia inteligentnego systemu monitorującego ruch pojazdów na danym odcinku drogi, który jest zoptymalizowany do pracy na niskowydajnym mini-PC. Wykorzystuje on radar odcinkowy do pomiaru prędkości pojazdów oraz kamerę do rozpoznawania numerów rejestracyjnych. Detekcja pojazdu jest realizowana przez oprogramowanie kamery, co pozwala na optymalne wykorzystanie zasobów sprzętowych. Kamera IP, będąca integralną częścią systemu monitorowania ruchu pojazdów, komunikuje się z serwerem za pomocą protokołu FTP (File Transfer Protocol). Dzięki temu, obrazy i dane zgromadzone przez kamerę są przesyłane na serwer w sposób zorganizowany i bezpieczny.
+Projekt dotyczy tworzenia inteligentnego systemu monitorującego ruch pojazdów na danym odcinku drogi, który jest zoptymalizowany do pracy na niskowydajnym mini-PC. Wykorzystuje on radar odcinkowy do pomiaru prędkości pojazdów oraz kamerę do rozpoznawania numerów rejestracyjnych. Detekcja pojazdu jest realizowana przez oprogramowanie kamery, co pozwala na optymalne wykorzystanie zasobów sprzętowych. Kamera IP, będąca integralną częścią systemu monitorowania ruchu pojazdów, komunikuje się z serwerem za pomocą protokołu FTP (File Transfer Protocol). Dzięki temu, obrazy i dane zgromadzone przez kamerę są przesyłane na serwer w sposób zorganizowany i bezpieczny. Proces identyfikacji numeru rejestracyjnego został podzielony na dwie fazy: w pierwszej fazie z obrazu kamery wycinana jest grafika zawierająca numer rejestracyjny, a w drugiej następuje właściwe rozpoznanie tablicy rejestracyjnej. Główne funkcje projektu obejmują identyfikację pojazdów na wejściu i wyjściu z danego odcinka, pomiar prędkości oraz obliczanie czasu podróży między dwoma punktami. Dane odczytane z radaru i kamery są zapisywane w bazie danych, umożliwiając monitorowanie ruchu oraz generowanie raportów. System został zaprojektowany tak, aby mógł obsłużyć maksymalnie jeden pojazd na sekundę, co jest kluczowe dla efektywności i dokładności monitorowania.
 
-Proces identyfikacji numeru rejestracyjnego został podzielony na dwie fazy: w pierwszej fazie z obrazu kamery wycinana jest grafika zawierająca numer rejestracyjny, a w drugiej następuje właściwe rozpoznanie tablicy rejestracyjnej.
-
-Główne funkcje projektu obejmują identyfikację pojazdów na wejściu i wyjściu z danego odcinka, pomiar prędkości oraz obliczanie czasu podróży między dwoma punktami. Dane odczytane z radaru i kamery są zapisywane w bazie danych, umożliwiając monitorowanie ruchu oraz generowanie raportów. System został zaprojektowany tak, aby mógł obsłużyć maksymalnie jeden pojazd na sekundę, co jest kluczowe dla efektywności i dokładności monitorowania.
-
-Przygotowany projekt to propozycja do stworzenia większego projektu, który będzie miał zastosowanie w przypadku komercyjnego systemu kontroli ruchu drogowego oraz zarządzaniu danymi dotyczącymi pojazdów na danym odcinku drogi.
+Dodatkowo, projekt przewiduje możliwość adaptacji systemu do kontroli pojazdów w specyficznych strefach, takich jak strefy czystego transportu lub na parkingach strzeżonych. W strefach czystego transportu system mógłby być wykorzystany do monitorowania i egzekwowania zasad dotyczących dopuszczalnego typu pojazdów, na przykład ograniczając dostęp do pojazdów spalinowych. Na parkingach strzeżonych, połączonych z systemami automatyki, takimi jak szlabany, system mógłby automatycznie kontrolować dostęp pojazdów na podstawie rozpoznanych numerów rejestracyjnych, co zwiększa bezpieczeństwo i efektywność zarządzania parkingiem. Takie zastosowanie systemu pozwala na automatyzację procesów kontrolnych i zarządczych, co jest szczególnie wartościowe w obszarach wymagających ścisłej kontroli dostępu i zarządzania ruchem pojazdów.
 
 \section{Opis zrealizowanych pracy}
 
@@ -163,30 +159,29 @@ Przygotowany projekt to propozycja do stworzenia większego projektu, który bę
 \begin{tabular}{>{\centering}p{3cm}|>{\centering}p{5cm}|>{\centering}p{5cm}c}
                                                       & imię i nazwisko członka zespołu & wkład poszczególnych członków &\\ \hline
 \multirow{3}{3cm}{\centering opracowanie koncepcji i~założeń}&
-			Tomasz Górski	&			&\\ \cline{2-4}&
-			Tomasz Joniec		&			&\\ \cline{2-4}&                                   			Patryk Golonka				&			&\\ \hline
+			Tomasz Górski	&		detekcja numerów restracyjnych&\\ \cline{2-4}&
+			Tomasz Joniec		&		baza danych i komunikacja programu z bazą &\\ \cline{2-4}&   Patryk Golonka				&	 technologie webowe i raport	&\\ \hline
 \multirow{3}{3cm}{\centering opracowanie metod}&
-			Tomasz Górski		&			&\\ \cline{2-4}&
-				Tomasz Joniec		&			&\\ \cline{2-4}&                                   		Patryk Golonka								&			&\\ \hline
+			Tomasz Górski		&	detekcja numerów restracyjnych		&\\ \cline{2-4}&
+				Tomasz Joniec		&	baza danych i komunikacja programu z bazą		&\\ \cline{2-4}&                                   		Patryk Golonka								&	technologie webowe i raport		&\\ \hline
 \multirow{3}{3cm}{\centering wykonanie części praktycznej}&
-				Tomasz Górski		&			&\\ \cline{2-4}&
-				Tomasz Joniec &			&\\ \cline{2-4}&                                   				Patryk Golonka					&			&\\ \hline
+				Tomasz Górski		&	przygotowanie środowiska i programu	&\\ \cline{2-4}&
+				Tomasz Joniec &		pomoc w przygotowaniu programu i bazy danych	&\\ \cline{2-4}&                                   				Patryk Golonka					&	skonfigurowanie serwera apache oraz napisanie strony www z obsługą raportów		&\\ \hline
 \multirow{3}{3cm}{\centering przeprowadzenie testów}&
-				Tomasz Górski		&			&\\ \cline{2-4}&
-				Tomasz Joniec	&			&\\ \cline{2-4}&                                   			Patryk Golonka							&			&\\ \hline     
+				Tomasz Górski		&		wspólne zbadanie różnych scenariuszy		&\\ \cline{2-4}&
+				Tomasz Joniec	&		wspólne zbadanie różnych scenariuszy		&\\ \cline{2-4}&                                   			Patryk Golonka							&	wspólne zbadanie różnych scenariuszy		&\\ \hline     
 \multirow{3}{3cm}{\centering wykonanie dokumentacji}&                                                                        
-				Tomasz Górski		&			&\\ \cline{2-4}&
-				Tomasz Joniec&			&\\ \cline{2-4}&                                   				Patryk Golonka						&			&
+				Tomasz Górski		&	dokumentacja projektowa i użytkowa oraz sprawozdanie		&\\ \cline{2-4}&
+				Tomasz Joniec & dokumentacja instalacyjno-konfiguracyjna, projektowa oraz sprawozdanie	 		&\\ \cline{2-4}&                                   				Patryk Golonka						&	dokumentacja instalacyjno-konfiguracyjna, projektowa oraz sprawozdanie			&
 \end{tabular}
 \end{table}
 \section{Wykaz załączników}
-\textit{Wykaz załączników i ich krótka charakteryzacja.}
 
 \begin{itemize}
-\item {binaria i kody źródłowe;}
-\item \textit{dokumentacja projektowa;}
-\item \textit{dokumentacja użytkowa;}
-\item \textit{dokumentacja instalacyjno-konfiguracyjna systemu;}
+\item {binaria i kody źródłowe zawierające kod projektu;}
+\item \textit{dokumentacja projektowa opisująca działanie kodu;}
+\item \textit{dokumentacja użytkowa zawierająca informacje dla użytkownika;}
+\item \textit{dokumentacja instalacyjno-konfiguracyjna systemu zawierająca instrukcje dla administratora;}
 \end{itemize}
 
 \section{Oświadczenia}
@@ -216,9 +211,7 @@ Oświadczamy, że wkład poszczególnych członków zespołu  w powstanie niniej
 
 
 
-\renewcommand\refname{Literatura (jeżeli wymagana)}
-\bibliography{references}
-\addcontentsline{toc}{section}{Literatura}
+
 % --------------------------------------------------------------------
 %%%%%%% odkomentować gdy bibliografia ma być wewnątrz dokumentu
 % --------------------------------------------------------------------
