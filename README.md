@@ -7,7 +7,7 @@ The project concerns the creation of an intelligent system for monitoring vehicl
 
 Crontab setup proposal:
 
-2,7,17,22,32,37,47,52 * * * * python3 python3 /home/bob/project_radar/find_plate_number/main.py /home/bob/project_radar/cut_plate_from_picture/images/ /home/bob/project>
+2,7,17,22,32,37,47,52 * * * * python3 /home/bob/project_radar/find_plate_number/main.py /home/bob/project_radar/cut_plate_from_picture/images/ /home/bob/project_radar/find_plate_number/results.json
 
 */3 * * * * python3 /home/bob/project_radar/cut_plate_from_picture/licenseplate.py
 
